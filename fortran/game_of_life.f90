@@ -3,7 +3,6 @@ implicit none
     integer, parameter ::  rows = 5, columns = 5,gen=5
     double precision,parameter::some=0.619
     call sleep(1)
-    print *, "hello" 
     call life(rows,columns,some,gen)
     
 end program main
@@ -17,23 +16,31 @@ implicit none
     integer,DIMENSION(rows*cols) :: now
     double precision,INTENT(IN)::some
     integer :: i, j 
-    do i=1,rows*cols
+    integer::d(1:SIZE(now,1))
+    !do i=1,rows*cols
         !do j=1,cols
-            if (rand()<some) then 
-                now(i) = 1
-            else 
-                now(i)=0
-            endif
+    !        if (rand()<some) then 
+    !            now(i) = 1
+    !        else 
+    !            now(i)=0
+    !        endif
         !end do
-    end do
-    !now=(/1,1,0,1,1,1,0,1,1,1,1,1,0,1,0,1,0,1,1,1,1,1,0,1,1/)
+    !end do
+    now=(/1,1,0,1,1,1,0,1,1,1,1,1,0,1,0,1,0,1,1,1,1,1,0,1,1/)
+    d=now
+    write(*,*) "recursive ", gen
     do i = 1, rows*cols
         if (modulo(i-1,rows)==0) then
             write(*,*)
         endif
-        write(*,"(1x, i0)",advance="no") now(i)
+        if(d(i) .eq. 0) then
+            write(*,"(1x, A)",advance="no") " "
+        else
+            write(*,"(1x, A)",advance="no") "o"
+        endif
     end do
     write(*,*)
+    
     call live(now,rows,cols,gen)
 end subroutine life
 
@@ -66,18 +73,23 @@ implicit none
             endif
         endif
     end do
+    m = (gen-1)
+    write(*,*) "recursive ", m
     do i = 1, r*c
         if (modulo(i-1,r)==0) then
             write(*,*)
         endif
-        write(*,"(1x, i0)",advance="no") b(i)
+        if(b(i) .eq. 0) then
+            write(*,"(1x, A)",advance="no") " "
+        else
+            write(*,"(1x, A)",advance="no") "o"
+        endif
+
     end do
     write(*,*)
-    write(*,"(A)") "recursive"
-    m = (gen-1)
     a=b
     if(gen .NE. 0) then
-        write(*,*) "recursive ", m
+        
         call live(a,r,c,m)
     endif
 end subroutine live 
