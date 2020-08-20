@@ -16,7 +16,7 @@
 #
 BEGIN { sleep(1)
         clearScreen()
-        life(50,20,.619, 200)
+        life(10,10,.619, 200)
 }
 
 function life(rows, cols, some, generations,
