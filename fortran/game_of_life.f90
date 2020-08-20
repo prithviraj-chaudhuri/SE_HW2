@@ -1,7 +1,7 @@
 program main
 implicit none    
     integer, parameter ::  rows = 5, columns = 5,gen=5
-    double precision,parameter::some=0.35
+    double precision,parameter::some=0.619
     call sleep(1)
     print *, "hello" 
     call life(rows,columns,some,gen)
@@ -26,6 +26,7 @@ implicit none
             endif
         !end do
     end do
+    !now=(/1,1,0,1,1,1,0,1,1,1,1,1,0,1,0,1,0,1,1,1,1,1,0,1,1/)
     do i = 1, rows*cols
         if (modulo(i-1,rows)==0) then
             write(*,*)
@@ -49,9 +50,8 @@ implicit none
     start1=c+2
     end1=(r*c)-c-2
     b=a
-    do i = 1,r*c
-        nei = a(i-1)+a(i+1)+a(i+c)+a(i-c)+a(i+c+1)+a(i+c-1)+a(i-c-1)+a(i-c-1)
-        b(i)=a(i)
+    do i = 1,c*r
+        nei = a(i-1)+a(i+1)+a(i+r)+a(i-r)+a(i+r+1)+a(i+r-1)+a(i-r-1)+a(i-r+1)
         if(a(i)==0) then
             if(nei==3) then
                 b(i)=1
