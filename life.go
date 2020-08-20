@@ -43,11 +43,23 @@ func live(now []int, rows int, cols int, generations int) int{
 	 */
 
 	if generations < 1{
+		sleep()
+		cls()
+		for c := 0; c < rows*cols; c++{
+			if now[c] == 1{
+				fmt.Printf("o")
+			}else{
+				fmt.Printf(" ")
+			}
+			if (c+1)%rows == 0{
+				fmt.Printf("\n")
+			}
+		}
 		return 0
 	}else{
 		sleep()
 		cls()
-		fmt.Println("Generation", generations)
+		fmt.Println("\nGeneration", generations)
 
 		fmt.Printf("\n")
 
@@ -57,7 +69,7 @@ func live(now []int, rows int, cols int, generations int) int{
 			}else{
 				fmt.Printf(" ")
 			}
-			if c%rows == 0{
+			if (c+1)%rows == 0{
 				fmt.Printf("\n")
 			}
 		}
@@ -72,7 +84,7 @@ func live(now []int, rows int, cols int, generations int) int{
 				          get_neighbors(now, c-rows+1, rows, cols) +
 						  get_neighbors(now, c+rows-1, rows, cols) +
 						  get_neighbors(now, c+rows, rows, cols) +
-						  get_neighbors(now, c+51, rows, cols)
+						  get_neighbors(now, c+rows+1, rows, cols)
 
 			newNow[c] = now[c]
 			if now[c] == 0{
@@ -95,7 +107,7 @@ func live(now []int, rows int, cols int, generations int) int{
 	}
 }
 
-func life(rows int, cols int, some float64, generations int){
+func life(rows int, cols int, some float64, optional ...int) []int{
 
 	/*
 	This method initialized the game of life board. And
@@ -111,7 +123,7 @@ func life(rows int, cols int, some float64, generations int){
 			now[c] = 0
 		}
 	}
-	live(now, rows, cols, generations)
+	return now
 }
 
 func sleep(){
@@ -129,6 +141,17 @@ func initialize() int{
 
 
 func main(){
-	initialize()
-	life(50, 20, 0.619, 200)
+
+	args := os.Args[1:]
+
+	if len(args) == 0{
+		initialize()
+		now := life(50, 20, 0.619)
+		live(now, 50, 20, 200)
+	}else{
+		now := []int{1,1,0,1,1, 1,0,1,1,1, 1,1,0,1,0, 1,0,1,1,1, 1,1,0,1,1}
+		live(now, 5, 5, 5)
+	}
+
+
 }
