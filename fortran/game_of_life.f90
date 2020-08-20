@@ -17,16 +17,16 @@ implicit none
     double precision,INTENT(IN)::some
     integer :: i, j 
     integer::d(1:SIZE(now,1))
-    !do i=1,rows*cols
+    do i=1,rows*cols
         !do j=1,cols
-    !        if (rand()<some) then 
-    !            now(i) = 1
-    !        else 
-    !            now(i)=0
-    !        endif
+            if (rand()<some) then 
+                now(i) = 1
+            else 
+                now(i)=0
+            endif
         !end do
-    !end do
-    now=(/1,1,0,1,1,1,0,1,1,1,1,1,0,1,0,1,0,1,1,1,1,1,0,1,1/)
+    end do
+    !now=(/1,1,0,1,1,1,0,1,1,1,1,1,0,1,0,1,0,1,1,1,1,1,0,1,1/)
     d=now
     write(*,*) "recursive ", gen
     do i = 1, rows*cols
