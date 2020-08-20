@@ -1,7 +1,7 @@
 program main
 implicit none    
     integer, parameter ::  rows = 5, columns = 5,gen=5
-    double precision,parameter::some=0.619
+    double precision,parameter::some=0.35
     call sleep(1)
     print *, "hello" 
     call life(rows,columns,some,gen)
@@ -49,7 +49,7 @@ implicit none
     start1=c+2
     end1=(r*c)-c-2
     b=a
-    do i = start1,end1
+    do i = 1,r*c
         nei = a(i-1)+a(i+1)+a(i+c)+a(i-c)+a(i+c+1)+a(i+c-1)+a(i-c-1)+a(i-c-1)
         b(i)=a(i)
         if(a(i)==0) then
@@ -74,12 +74,11 @@ implicit none
     end do
     write(*,*)
     write(*,"(A)") "recursive"
-    !m = (gen-1)
-    !gen=m
+    m = (gen-1)
     a=b
     if(gen .NE. 0) then
-        write(*,"(A, i0)") "recursive " gen
-        !call live(a,r,c,gen)
+        write(*,*) "recursive ", m
+        call live(a,r,c,m)
     endif
 end subroutine live 
 
