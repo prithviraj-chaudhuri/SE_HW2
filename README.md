@@ -1,10 +1,14 @@
 # SE_HW2
 Game Of Life - In 3 different languages- Experiment
+[![DOI](https://zenodo.org/badge/288771152.svg)](https://zenodo.org/badge/latestdoi/288771152)
 
 #### Table Of Contents
 [Experiment](#Experiment)
+
 [Code of Conduct](CODE_OF_CONDUCT.md)
+
 [How to Contribute?](CONTRIBUTING.md)
+
 [Citation](Citation.md)
 
 ## Experiment
