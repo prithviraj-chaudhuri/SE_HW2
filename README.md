@@ -3,11 +3,8 @@ Game Of Life - In 3 different languages- Experiment
 
 #### Table Of Contents
 [Experiment](#Experiment)
-
 [Code of Conduct](CODE_OF_CONDUCT.md)
-
 [How to Contribute?](CONTRIBUTING.md)
-
 [Citation](Citation.md)
 
 ## Experiment
