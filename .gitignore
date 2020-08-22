@@ -1,1 +1,5 @@
+
+./sehw2.pem
 .idea/
+./*__pycache__
+./webapp_venv/
