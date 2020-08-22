@@ -89,8 +89,8 @@ implicit none
                 b(i)=1
             endif
         else
-            if(nei==2 .or. nei==3) then
-                b(i)=1
+            if(.NOT. (nei .LT. 2) .OR. .NOT. (nei .GT. 3)) then
+                b(i)=a(i)
             endif
         endif
     end do
