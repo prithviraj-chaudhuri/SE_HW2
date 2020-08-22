@@ -1,32 +1,36 @@
 program main
-implicit none    
-    integer, parameter ::  rows = 5, columns = 5,gen=5
+implicit none
+    CHARACTER(1)::choice
+    integer, parameter ::  rows = 3, columns = 3,gen=5
     double precision,parameter::some=0.619
+    integer,DIMENSION(rows*columns)::now
+    integer :: i
     call sleep(1)
-    call life(rows,columns,some,gen)
-    
-end program main
-
-
-subroutine life (rows,cols,some,gen)
-implicit none     
-    
-    integer,INTENT(IN) :: rows,cols
-    integer, INTENT(INOUT) :: gen
-    integer,DIMENSION(rows*cols) :: now
-    double precision,INTENT(IN)::some
-    integer :: i, j 
-    integer::d(1:SIZE(now,1))
-    do i=1,rows*cols
-        !do j=1,cols
+    call GET_COMMAND_ARGUMENT(1,choice)
+    if (choice .EQ. 'a') then
+        do i=1,rows*columns
             if (rand()<some) then 
                 now(i) = 1
             else 
                 now(i)=0
             endif
-        !end do
-    end do
-    !now=(/1,1,0,1,1,1,0,1,1,1,1,1,0,1,0,1,0,1,1,1,1,1,0,1,1/)
+        end do
+    else
+        now=(/0,0,0,1,1,1,0,0,0/)
+    endif
+    call life(now,rows,columns,gen)
+    
+end program main
+
+
+subroutine life (now,rows,cols,gen)
+implicit none     
+    
+    integer,INTENT(IN) :: rows,cols
+    integer, INTENT(INOUT) :: gen
+    integer,INTENT(IN) :: now(rows*cols)
+    integer :: i, j 
+    integer::d(1:SIZE(now,1))
     d=now
     write(*,*) "recursive ", gen
     do i = 1, rows*cols
@@ -50,26 +54,43 @@ implicit none
     integer,INTENT(IN):: r,c
     integer, INTENT(INOUT) ::a(r*c)
     integer, INTENT(INOUT) :: gen
-    integer:: i,nei,start1,end1,m
+    integer:: i,nei,m
     integer::b(1:SIZE(a,1))
-    call sleep(1)
     write (*,"(A)") gen
-    start1=c+2
-    end1=(r*c)-c-2
-    b=a
-    do i = 1,c*r
-        nei = a(i-1)+a(i+1)+a(i+r)+a(i-r)+a(i+r+1)+a(i+r-1)+a(i-r-1)+a(i-r+1)
+     do i = 1,c*r
+        nei=0
+        b(i)=0
+        if((i-1) .GE. 1) then
+            nei= nei+ a(i-1)
+        endif
+        if((i+1) .LE. (r*c)) then
+            nei= nei+a(i+1)
+        endif
+        if((i-r) .GE. 1) then
+            nei= nei+a(i-r)
+        endif
+        if((i+r) .LE. (r*c)) then
+            nei= nei+a(i+r)
+        endif
+        if((i-r-1) .GE. 1) then
+            nei= nei+a(i-r-1)
+        endif
+        if((i-r+1) .GE. 1) then
+            nei= nei+a(i-r+1)
+        endif
+        if((i+r-1) .LE. (r*c)) then
+            nei= nei+a(i+r-1)
+        endif
+        if((i+r+1) .LE. (r*c)) then
+            nei= nei+a(i+r+1)
+        endif
         if(a(i)==0) then
             if(nei==3) then
                 b(i)=1
-            else
-                b(i)=0
             endif
         else
             if(nei==2 .or. nei==3) then
                 b(i)=1
-            else
-                b(i)=0
             endif
         endif
     end do
@@ -84,13 +105,9 @@ implicit none
         else
             write(*,"(1x, A)",advance="no") "o"
         endif
-
     end do
     write(*,*)
-    a=b
-    if(gen .NE. 0) then
-        
-        call live(a,r,c,m)
+    if(m .NE. 0) then
+        call live(b,r,c,m)
     endif
 end subroutine live 
-
