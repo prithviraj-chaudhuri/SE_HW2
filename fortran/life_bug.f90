@@ -1,9 +1,10 @@
 program main
 implicit none
+    logical equal
     CHARACTER(1)::choice
     integer, parameter ::  rows = 3, columns = 3,gen=5
     double precision,parameter::some=0.619
-    integer,DIMENSION(rows*columns)::now
+    integer,DIMENSION(rows*columns)::now, final
     integer :: i
     call sleep(1)
     call GET_COMMAND_ARGUMENT(1,choice)
@@ -19,7 +20,21 @@ implicit none
         now=(/0,0,0,1,1,1,0,0,0/)
     endif
     call life(now,rows,columns,gen)
-    
+
+    !if (choice .NE. 'a') then
+    !   final = (/0,0,0,0,0,0,0,0,0/)
+    !    equal = size(now) == size(final)
+    !    if (equal) then
+    !        do i=1,size(now)
+    !            equal = equal .and. now(i) == final(i) 
+    !            print *, equal, now(i)
+    !            if ( .not. equal )exit
+    !        enddo
+    !    endif
+    !    if(equal) then
+    !        print *, "All good!!"
+    !    endif
+    !endif
 end program main
 
 
@@ -28,7 +43,7 @@ implicit none
     
     integer,INTENT(IN) :: rows,cols
     integer, INTENT(INOUT) :: gen
-    integer,INTENT(IN) :: now(rows*cols)
+    integer,INTENT(INOUT) :: now(rows*cols)
     integer :: i, j 
     integer::d(1:SIZE(now,1))
     d=now
@@ -89,8 +104,8 @@ implicit none
                 b(i)=1
             endif
         else
-            if(nei==2 .or. nei==3) then
-                b(i)=1
+            if(.NOT. (nei .LT. 2) .AND. .NOT. (nei .GT. 3)) then
+                b(i)=a(i)
             endif
         endif
     end do
