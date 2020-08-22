@@ -4,6 +4,7 @@ services:
     docker
 
 before_install:
+    cd fortran
     make fortran-build
 
 jobs:
