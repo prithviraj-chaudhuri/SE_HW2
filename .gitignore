@@ -2,3 +2,4 @@
 .idea/
 ./*__pycache__
 ./webapp_venv/
+.DS_Store
