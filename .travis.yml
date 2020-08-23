@@ -1,0 +1,15 @@
+language: minimal
+
+services:
+    docker
+
+before_install:
+    cd fortran
+
+install:
+    make fortran-build
+
+jobs:
+    include:
+      - stage: fortran-test
+        script: make fortran-run

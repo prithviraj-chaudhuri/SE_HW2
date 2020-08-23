@@ -1,0 +1,13 @@
+FROM alpine:latest
+
+RUN apk add --no-cache musl-dev 
+RUN apk add --no-cache gfortran gdb make
+
+
+# build the hello world code
+COPY game_of_life.f90 /fortran/game_of_life.f90
+WORKDIR /fortran/
+RUN gfortran game_of_life.f90 -g -o gof
+
+# configure the container to run the hello world executable by default
+CMD ["./gof"]
