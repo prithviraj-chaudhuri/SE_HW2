@@ -23,5 +23,6 @@ urlpatterns = [
     url('record/', include('records.urls'), name='record'),
     path('admin/', admin.site.urls),
     path('questionnaire/<str:token>', views.questionnaire),
+    path('code/<str:token>', views.code),
     url('^$', views.index)
 ]

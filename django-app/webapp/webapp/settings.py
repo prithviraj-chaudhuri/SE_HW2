@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'tokens',
     'records',
     'frontend',
+    'gol',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

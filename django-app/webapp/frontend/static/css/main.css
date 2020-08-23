@@ -78,3 +78,15 @@ body {
 .questionnaire-body #submit {
   float: right;
 }
+
+
+.question-guide {
+  font-size: inherit;
+  display: block;
+}
+
+.script-box {
+  height: 400px !important;
+  font-size: smaller;
+  font: revert !important;
+}

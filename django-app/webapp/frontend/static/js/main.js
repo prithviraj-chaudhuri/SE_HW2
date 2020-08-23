@@ -1,43 +1,47 @@
 $(document).ready(function () {
-    $('.form-entry').submit(function (event) {
 
+    $('#token-form').submit(function (event) {
         event.preventDefault();
-        //Check token here
         token = $('#token').val().toString().trim()
-
         $.ajax({
             url: "token/",
             data: {"action":"use", "token": token},
             type: "POST",
             beforeSend: function( xhr ) {
                 $('#submit').attr('disabled', true);
-                $('.form-entry .alert').addClass('show');
-                $('.form-entry .alert .alert-text').html("Sending");
-                $('.form-entry .alert .spinner-border').show();
+                $('#token-form .alert').addClass('show');
+                $('#token-form .alert .alert-text').html("Sending");
+                $('#token-form .alert .spinner-border').show();
             },
             success: function (result) {
                 $('#submit').html("Submit");
                 $('#submit').attr('disabled', false);
                 if (result == true) {
-                    $('.form-entry .alert .spinner-border').hide();
-                    $('.form-entry .alert .alert-text').html("");
-                    $('.form-entry .alert').removeClass('show');
-                    window.location.href += "questionnaire/"+token;
+                    $('#token-form .alert .spinner-border').hide();
+                    $('#token-form .alert .alert-text').html("");
+                    $('#token-form .alert').removeClass('show');
+                    window.location.href = window.location.protocol + "//" + window.location.host + "/questionnaire/"+token;
                 } else {
-                    $('.form-entry .alert .spinner-border').hide();
-                    $('.form-entry .alert').addClass('show');
-                    $('.form-entry .alert .alert-text').html("The token is either used or invalid");
+                    $('#token-form .alert .spinner-border').hide();
+                    $('#token-form .alert').addClass('show');
+                    $('#token-form .alert .alert-text').html("The token is either used or invalid");
                 }
             },
             error: function (res) {
                 $('#submit').attr('disabled', false);
                 $('#submit').html("Submit");
-                $('.form-entry .alert .spinner-border').hide();
-                $('.form-entry .alert .alert-text').html("Some error occured");
-                $('.form-entry .alert').addClass('show');
+                $('#token-form .alert .spinner-border').hide();
+                $('#token-form .alert .alert-text').html("Some error occured");
+                $('#token-form .alert').addClass('show');
                 console.log("Error using token ",res);
             }
         });
+    });
 
+    $('#questionnaire-form').submit(function (event) {
+        event.preventDefault();
+        var locations = window.location.href.split('/');
+        var token = locations[locations.length-1];
+        window.location.href = window.location.protocol + "//" + window.location.host + "/code/"+token;
     });
 });
