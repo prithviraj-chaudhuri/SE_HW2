@@ -3,4 +3,4 @@
 ./*__pycache__
 ./webapp_venv/
 .DS_Store
-*.pyc
+*.pycwebapp_venv/

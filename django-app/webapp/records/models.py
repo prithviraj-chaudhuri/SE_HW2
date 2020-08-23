@@ -3,6 +3,7 @@ from django.db import models
 from django.core import serializers
 from datetime import datetime
 
+
 class RecordManager(models.Manager):
 
     def create_record(self, token, language):
