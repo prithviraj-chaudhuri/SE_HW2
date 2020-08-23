@@ -4,8 +4,8 @@ implicit none
     integer, parameter ::  rows = 50, columns = 20,gen=200
     integer, parameter ::  rows1 = 3, columns1 = 3,gen1=4
     double precision,parameter::some=0.619
-    integer,DIMENSION(rows*columns)::now
-    integer,DIMENSION(rows1*columns1)::now1
+    integer,DIMENSION(rows*columns)::now,outnow
+    integer,DIMENSION(rows1*columns1)::now1,outnow1,final
     integer :: i
     call GET_COMMAND_ARGUMENT(1,choice)
     if (choice .EQ. 'a') then
@@ -18,25 +18,25 @@ implicit none
         end do
         call sleep(1)
         call cls()
-        call life(now,rows,columns,gen)
+        call hm()
+        call life(now,rows,columns,gen,outnow)
     else
         now1=(/0,0,0,1,1,1,0,0,0/)
         call sleep(1)
         call cls()
-        call life(now1,rows1,columns1,gen1)
+        call hm()
+        call life(now1,rows1,columns1,gen1,outnow1)
     endif
-    call sleep(1)
-    call hm()
-    call cls()
 end program main
 
 
-subroutine life (now,rows,cols,gen)
+subroutine life (now,rows,cols,gen,outnow)
 implicit none     
     
     integer,INTENT(IN) :: rows,cols
     integer, INTENT(INOUT) :: gen
     integer,INTENT(IN) :: now(rows*cols)
+    integer,INTENT(OUT) :: outnow(rows*cols)
     integer :: i, j 
     integer::d(1:SIZE(now,1))
     d=now
@@ -52,14 +52,18 @@ implicit none
         endif
     end do
     write(*,*)
-    call live(now,rows,cols,gen)
+    call sleep(1)
+    call cls()
+    call hm()
+    call live(now,rows,cols,gen,outnow)
 end subroutine life
 
 
-RECURSIVE subroutine live (a,r,c,gen)    
+RECURSIVE subroutine live (a,r,c,gen,outnow)    
 implicit none   
     integer,INTENT(IN):: r,c
     integer, INTENT(INOUT) ::a(r*c)
+    integer, INTENT(OUT) ::outnow(r*c)
     integer, INTENT(INOUT) :: gen
     integer:: i,nei,m
     integer::b(1:SIZE(a,1))
@@ -101,8 +105,6 @@ implicit none
         endif
     end do
     m = (gen-1)
-    call sleep(1)
-    call hm()
     write(*,*) "recursive ", m
     do i = 1, r*c
         if (modulo(i-1,r)==0) then
@@ -116,7 +118,11 @@ implicit none
     end do
     write(*,*)
     if(m .NE. 0) then
-        call live(b,r,c,m)
+        call sleep(1)
+        call cls()
+        call hm()
+        outnow=b
+        call live(b,r,c,m,outnow)
     endif
 end subroutine live 
 
