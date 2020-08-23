@@ -45,7 +45,7 @@ class Record(models.Model):
     token = models.CharField(max_length=20, blank=False, null=False)
     language = models.CharField(max_length=20, choices=(("g", "go"), ("r", "rust"), ("f", "fortran")),
                                 blank=False, null=False)
-    start_time = models.DateTimeField(blank=False, null=False)
-    end_time = models.DateTimeField(null=False)
-    duration = models.CharField(max_length=20, null=False, default="")
+    start_time = models.CharField(max_length=100, null=False)
+    end_time = models.CharField(max_length=100, null=False)
+    duration = models.CharField(max_length=200, null=False, default="")
     objects = RecordManager()

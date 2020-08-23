@@ -2,17 +2,14 @@ from .models import Record
 
 
 def create_new_record(data):
-
-    if Record.objects.create_record(token=data["token"], language=data["language"],
-                                    start_time=data["start_time"], end_time=data["end_time"]):
+    return Record.objects.create_record(token=data["token"], language=data["language"])
+    if Record.objects.create_record(token=data["token"], language=data["language"]):
         return {
             "status": 0,
             "message": "success",
             "data": [data]
         }
-
     else:
-
         return {
             "status": 1,
             "message": "error",
@@ -32,7 +29,7 @@ def update_record(data):
     else:
         return {
             "status": 1,
-            "message": "error",
+            "message": "sss",
             "data": [data]
         }
 

@@ -50,43 +50,46 @@ $(document).ready(function () {
         var locations = window.location.href.split('/');
         var token = locations[locations.length-1];
         action = $(this).data( "state");
-        id = $(this).data("id")
+        id = $(this).data("id");
         $.ajax({
-            url: window.location.protocol + "//" + window.location.host + "/records/",
-            data: {"action":action, "token": token},
+            url: window.location.protocol + "//" + window.location.host + "/record/",
+            data: {"action":action, "token": token, "language":"g"},
             type: "POST",
             beforeSend: function( xhr ) {
-                $(this).attr('disabled', true);
+                $('#start-stop-'+id).attr('disabled',true)
                 $('#alert-'+id).addClass('show');
-                $('#alert-'+id+' .alert .alert-text').html("Please wait...");
-                $('#alert-'+id+' .alert .spinner-border').show();
+                $('#alert-'+id+' .alert-text').html("Please wait...");
+                $('#alert-'+id+' .spinner-border').show();
             },
             success: function (result) {
-                $(this).attr('disabled', false);
+                $('#start-stop-'+id).attr('disabled',true)
                 if (result['status'] == 0) {
-                    $('#alert-'+id+' .alert .spinner-border').hide();
+                    $('#alert-'+id+' .spinner-border').hide();
                     if (action == "start") {
-                        $('#alert-'+id+' .alert .alert-text').html("The debug session has started");
-                        $(this).html('Stop');
-                        $(this).data( "state","stop");
+                        $('#alert-'+id+' .alert-text').html("The debug session has started");
+                        $('#start-stop-'+id).html('Stop');
+                        $('#start-stop-'+id).data( "state","stop");
                     } else {
-                        $('#alert-'+id+' .alert .alert-text').html("The debug session has stopped");
-                        $(this).html('Start');
-                        $(this).data( "state","start");
-                        $(this).attr('disabled', true);
+                        $('#alert-'+id+' .alert-text').html("The debug session has stopped");
+                        $('#start-stop-'+id).html('Start');
+                        $('#start-stop-'+id).data( "state","start");
+                        $('#start-stop-'+id).attr('disabled', true);
                     }
                 } else {
-                    $('#alert-'+id+' .alert .spinner-border').hide();
-                    $('#alert-'+id+' .alert').addClass('show');
-                    $('#alert-'+id+' .alert .alert-text').html("Some error occured");
+                    $('#start-stop-'+id).html('Start');
+                    $('#start-stop-'+id).attr('disabled', false);
+                    $('#alert-'+id+' .spinner-border').hide();
+                    $('#alert-'+id).addClass('show');
+                    $('#alert-'+id+' .alert-text').html("Some error occured");
                 }
+                console.log("Error starting  ",result);
             },
             error: function (res) {
-                $(this).html('Start');
-                $(this).attr('disabled', false);
-                $('#alert-'+id+' .alert .spinner-border').hide();
-                $('#alert-'+id+' .alert .alert-text').html("Some error occured");
-                $('#alert-'+id+' .alert').addClass('show');
+                $('#start-stop-'+id).html('Start');
+                $('#start-stop-'+id).attr('disabled', false);
+                $('#alert-'+id+' .spinner-border').hide();
+                $('#alert-'+id+' .alert-text').html("Some error occured");
+                $('#alert-'+id).addClass('show');
                 console.log("Error starting  ",res);
             }
         });
