@@ -4,6 +4,7 @@ import requests
 from rest_framework import generics
 from rest_framework.response import Response
 from .models import Questionnaire, QuestionnaireResponse
+import json
 
 # Create your views here.
 def index(request):
@@ -12,30 +13,17 @@ def index(request):
 
 def questionnaire(request, token):
     #Load questions here
+    questions = Questionnaire.objects.get_all_questions()
     context = {}
     context['questions'] = []
-    q1 = {}
-    q1['id'] = 1
-    q1['question'] = "Have you seen this question before?"
-    q1['choices'] = []
-    q1['choices'].append("1")
-    q1['choices'].append("2")
-    q1['choices'].append("3")
-    q1['choices'].append("4")
-    q1['choices'].append("5")
-    context['questions'].append(q1)
-
-    q1 = {}
-    q1['id'] = 2
-    q1['question'] = "Is this funny?"
-    q1['choices'] = []
-    q1['choices'].append("1")
-    q1['choices'].append("2")
-    q1['choices'].append("3")
-    q1['choices'].append("4")
-    q1['choices'].append("5")
-    context['questions'].append(q1)
-
+    question_id_list = []
+    for q in questions:
+        q['choices'] = []
+        for i in range(1, 6):
+            q['choices'].append(str(i))
+        question_id_list.append(str(q['pk']))
+        context['questions'].append(q)
+    context['question_id_list'] = ','.join(question_id_list)
     return render(request, 'questionnaire.html', context)
 
 def code(request, token):
@@ -98,9 +86,7 @@ class QuestionnaireResponseAPI(generics.CreateAPIView, generics.ListAPIView):
         })
 
     def create(self, request, *args, **kwargs):
-
-        responses = request.data["responses"]
-
+        responses = json.loads(request.data["responses"])
         output_response = QuestionnaireResponse.objects.create_new_responses(responses)
 
         return Response(data={

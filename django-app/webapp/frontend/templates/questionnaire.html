@@ -15,15 +15,15 @@
         <div class="row">
             <div class="col-sm-2"></div>
             <div class="col-sm-8 form-div">
-                <form class="form-entry" id="questionnaire-form">
+                <form class="form-entry" id="questionnaire-form" data-id-list="{{question_id_list}}">
                     <h1 class="h3 mb-3 font-weight-normal">Please fill out this form before proceeding</h1>
                     {% for q in questions %}
                         <div class="col-sm-12 questions">
-                            <label for="question-{{q.id}}" class="question-label">{{q.question}}</label>
+                            <label for="question-{{q.pk}}" class="question-label">{{q.fields.question}}</label>
                             {% for c in q.choices %}
                                 <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="question-{{q.id}}" id="question-{{q.id}}-{{c}}" value="{{c}}">
-                                    <label class="form-check-label" for="question-{{q.id}}-{{c}}">
+                                    <input class="form-check-input" type="radio" name="question-{{q.pk}}" id="question-{{q.pk}}-{{c}}" value="{{c}}">
+                                    <label class="form-check-label" for="question-{{q.pk}}-{{c}}">
                                         {{c}}
                                     </label>
                                 </div>

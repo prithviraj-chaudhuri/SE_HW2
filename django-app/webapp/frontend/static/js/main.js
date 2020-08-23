@@ -42,7 +42,43 @@ $(document).ready(function () {
         event.preventDefault();
         var locations = window.location.href.split('/');
         var token = locations[locations.length-1];
-        window.location.href = window.location.protocol + "//" + window.location.host + "/code/"+token;
+        var id_list = $('#questionnaire-form').data('id-list');
+        id_list = id_list.split(',')
+        responses = []
+        for (var i=0; i<id_list.length; i++) {
+            if ($("input[name='question-"+id_list[i]+"']:checked").length == 0) {
+                alert("Please answer all the questions");
+                return;
+            }
+            res = {}
+            res['question_id'] = parseInt(id_list[i]);
+            res['response'] = parseInt($("input[name='question-"+id_list[i]+"']:checked").val());
+            res['token'] = token;
+            responses.push(res);
+        }
+
+        console.log(JSON.stringify({"responses":responses}));
+        console.log(window.location.protocol + "//" + window.location.host + "/questionnaireapi/questionresponse/");
+
+        $.ajax({
+            url: window.location.protocol + "//" + window.location.host + "/questionnaireapi/questionresponse/",
+            data: {"responses":JSON.stringify(responses)},
+            type: "POST",
+            beforeSend: function( xhr ) {
+                //Loader
+            },
+            success: function (result) {
+                //window.location.href = window.location.protocol + "//" + window.location.host + "/code/"+token; 
+                //Loader
+                console.log("Log result  ",result);
+            },
+            error: function (res) {
+                //Loader
+                console.log("Error starting  ",res);
+            }
+        });
+
+
     });
 
     $('.start-stop').on('click', function (event) {
