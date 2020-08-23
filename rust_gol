@@ -109,5 +109,5 @@ fn live(mut a: &Vec<i32>, r: usize, col:usize, mut gen: i32)->i32{
   }
 
 fn main(){
-    create_vector(5,2,0.619,200);
+    create_vector(50,20,0.619,200);
 }
