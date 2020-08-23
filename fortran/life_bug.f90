@@ -119,7 +119,7 @@ implicit none
                 b(i)=1
             endif
         else
-            if(.NOT. (nei .LT. 2) .AND. .NOT. (nei .GT. 3)) then
+            if(.NOT. (nei .LT. 2) .OR. .NOT. (nei .GT. 3)) then
                 b(i)=a(i)
             endif
         endif
