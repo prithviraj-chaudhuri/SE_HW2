@@ -3,8 +3,10 @@ implicit none
     logical equal
     CHARACTER(1)::choice
     integer, parameter ::  rows = 3, columns = 3,gen=5
+    integer, parameter ::  rows1 = 3, columns1 = 3,gen1=4
     double precision,parameter::some=0.619
-    integer,DIMENSION(rows*columns)::now, final
+    integer,DIMENSION(rows*columns)::now
+    integer,DIMENSION(rows1*columns1)::now1,final
     integer :: i
     call sleep(1)
     call GET_COMMAND_ARGUMENT(1,choice)
@@ -16,10 +18,15 @@ implicit none
                 now(i)=0
             endif
         end do
+		call sleep(1)
+        call cls()
+        call life(now,rows,columns,gen)
     else
-        now=(/0,0,0,1,1,1,0,0,0/)
+        now1=(/0,0,0,1,1,1,0,0,0/)
+        call sleep(1)
+        call cls()
+        call life(now1,rows1,columns1,gen1)
     endif
-    call life(now,rows,columns,gen)
 
     !if (choice .NE. 'a') then
     !   final = (/0,0,0,0,0,0,0,0,0/)
@@ -71,7 +78,6 @@ implicit none
     integer, INTENT(INOUT) :: gen
     integer:: i,nei,m
     integer::b(1:SIZE(a,1))
-    write (*,"(A)") gen
      do i = 1,c*r
         nei=0
         b(i)=0
@@ -110,6 +116,8 @@ implicit none
         endif
     end do
     m = (gen-1)
+	call sleep(1)
+    call hm()
     write(*,*) "recursive ", m
     do i = 1, r*c
         if (modulo(i-1,r)==0) then
@@ -126,3 +134,15 @@ implicit none
         call live(b,r,c,m)
     endif
 end subroutine live 
+
+
+
+subroutine cls()
+implicit none
+    print *, achar(27)//"[2J"
+end subroutine cls
+
+subroutine hm()
+implicit none
+    print *, achar(27)//"[1;1H"
+end subroutine hm
