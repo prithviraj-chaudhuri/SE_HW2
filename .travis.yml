@@ -5,6 +5,8 @@ services:
 
 before_install:
     cd fortran
+
+install:
     make fortran-build
 
 jobs:
