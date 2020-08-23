@@ -47,7 +47,7 @@ fn live(mut a: &Vec<i32>, r: usize, col:usize, mut gen: i32)->Vec<i32>{
           new[c]=1;
         }
       }
-      if c%3==0{
+      if c%r==0{
         println!{};
       }
       if new[c]==1{
