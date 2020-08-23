@@ -1,13 +1,12 @@
 program main
 implicit none
     CHARACTER(1)::choice
-    integer, parameter ::  rows = 20, columns = 50,gen=200
+    integer, parameter ::  rows = 50, columns = 20,gen=200
     integer, parameter ::  rows1 = 3, columns1 = 3,gen1=4
     double precision,parameter::some=0.619
     integer,DIMENSION(rows*columns)::now
     integer,DIMENSION(rows1*columns1)::now1
     integer :: i
-    call sleep(1)
     call GET_COMMAND_ARGUMENT(1,choice)
     if (choice .EQ. 'a') then
         do i=1,rows*columns
@@ -26,6 +25,9 @@ implicit none
         call cls()
         call life(now1,rows1,columns1,gen1)
     endif
+    call sleep(1)
+    call hm()
+    call cls()
 end program main
 
 
