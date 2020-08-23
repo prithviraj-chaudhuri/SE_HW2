@@ -8,7 +8,6 @@ implicit none
     integer,DIMENSION(rows*columns)::now
     integer,DIMENSION(rows1*columns1)::now1,final
     integer :: i
-    call sleep(1)
     call GET_COMMAND_ARGUMENT(1,choice)
     if (choice .EQ. 'a') then
         do i=1,rows*columns
@@ -27,7 +26,9 @@ implicit none
         call cls()
         call life(now1,rows1,columns1,gen1)
     endif
-
+    call sleep(1)
+    call hm()
+    call cls()
     !if (choice .NE. 'a') then
     !   final = (/0,0,0,0,0,0,0,0,0/)
     !    equal = size(now) == size(final)
