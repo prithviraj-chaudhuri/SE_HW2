@@ -4,6 +4,7 @@ from django.core import serializers
 
 # Create your models here.
 
+
 class ScriptManager(models.Manager):
 
     def get_all_scripts(self):

@@ -1,11 +1,17 @@
 from django.shortcuts import render
 from gol.models import Scripts
 import requests
+from rest_framework import generics
+from rest_framework.response import Response
+from .models import Questionnaire, QuestionnaireResponse
 
 # Create your views here.
+
+
 def index(request):
     context = {}
     return render(request, 'index.html', context) 
+
 
 def questionnaire(request, token):
     #Load questions here
@@ -51,9 +57,54 @@ def code(request, token):
     context = {"scripts":script_list}
     return render(request, 'code.html', context)
 
+
 def format_script(text):
     text = text.split("\n")
     script = ""
     for l in text:
         script += "<code>" + l + "</code>"
     return script
+
+
+class QuestionnaireAPI(generics.ListAPIView):
+
+    def get(self, request, *args, **kwargs):
+
+        data = Questionnaire.objects.get_all_questions()
+        response = {
+            "status": 0,
+            "message": "success",
+            "data": data
+        }
+
+        return Response(data=response)
+
+
+class QuestionnaireResponseAPI(generics.CreateAPIView, generics.ListAPIView):
+
+    def get(self, request, *args, **kwargs):
+
+        token = request.query_params.get("token", None)
+
+        if token:
+            responses = QuestionnaireResponse.objects.get_responses(token=token)
+        else:
+            responses = QuestionnaireResponse.objects.get_responses()
+
+        return Response(data={
+            "status": 0,
+            "message": "success",
+            "data": responses
+        })
+
+    def create(self, request, *args, **kwargs):
+
+        responses = request.data["responses"]
+
+        output_response = QuestionnaireResponse.objects.create_new_responses(responses)
+
+        return Response(data={
+            "status": 0,
+            "message": "success",
+            "data": output_response
+        })

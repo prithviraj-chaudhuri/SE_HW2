@@ -21,6 +21,7 @@ from frontend import views
 urlpatterns = [
     url('token/', include('tokens.urls'), name='token'),
     url('record/', include('records.urls'), name='record'),
+    url('questionnaireapi/', include('frontend.urls'), name='frontend_questionnaire_api'),
     path('admin/', admin.site.urls),
     path('questionnaire/<str:token>', views.questionnaire),
     path('code/<str:token>', views.code),
