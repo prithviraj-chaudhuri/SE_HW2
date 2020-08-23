@@ -32,3 +32,8 @@ def dispatch_record_get_request(request):
             "message": "error",
             "data": []
         }
+
+
+def dispatch_record_update_request(request):
+    response = update_record(request.data)
+    return response

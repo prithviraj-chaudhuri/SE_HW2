@@ -25,12 +25,12 @@
                             </label>
                             <div class="row">
                                 <div class="col-sm-2">
-                                    <button class="btn btn-lg btn-outline-primary btn-block" id="start-stop-{{s.script_id}}">
+                                    <button class="btn btn-lg btn-outline-primary btn-block start-stop" data-state="start" data-id="{{s.script_id}}" id="start-stop-{{s.script_id}}">
                                         Start
                                     </button>
                                 </div>
                                 <div class="col-sm-10">
-                                    <div class="alert alert-danger fade show" role="alert">
+                                    <div class="alert alert-danger fade" role="alert" id="alert-{{s.script_id}}">
                                         <value class="alert-text">Your debugging timer has started. Please copy the script from the section below and run it on your local environment</value>
                                     </div>
                                 </div>

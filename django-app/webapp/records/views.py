@@ -20,13 +20,20 @@ class Record(generics.ListAPIView, generics.CreateAPIView):
         return Response(data=response)
 
     def post(self, request, *args, **kwargs):
-
-        serializer = RecordSerializer(data=request.data)
-        response = None
-
-        if serializer.is_valid():
-            response = dispatch_record_create_request(request)
-        else:
-            response = error_response
+        action = request.data['action']
+        if action == "start":
+            serializer = RecordSerializer(data=request.data)
+            response = None
+            if serializer.is_valid():
+                response = dispatch_record_create_request(request)
+            else:
+                response = error_response
+        elif action == "stop":
+            serializer = RecordSerializer(data=request.data)
+            response = None
+            if serializer.is_valid():
+                response = dispatch_record_create_request(request)
+            else:
+                response = error_response
 
         return Response(data=response)

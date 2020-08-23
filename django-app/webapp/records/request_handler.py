@@ -19,6 +19,22 @@ def create_new_record(data):
             "data": [data]
         }
 
+def update_record(data):
+
+    is_updated, res = Record.objects.update_records(token=data["token"])
+
+    if is_updated:
+        return {
+            "status": 0,
+            "message": "success",
+            "data": [res]
+        }
+    else:
+        return {
+            "status": 1,
+            "message": "error",
+            "data": [data]
+        }
 
 def get_all_records():
 
