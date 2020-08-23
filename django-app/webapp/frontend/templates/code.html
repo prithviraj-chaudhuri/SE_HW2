@@ -14,39 +14,41 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-sm-2"></div>
-            {% for s in scripts %}
-                <div class="col-sm-8 form-div">
-                    <form class="form-entry">
-                        <h1 class="h3 mb-3 font-weight-normal">Game of Life - {{s.script_title}}</h1>
-                        <div class="col-sm-12 questions">
-                            <label class="question-guide">
-                                In order to start debugging the code please click the Start button below. Onclicking the Start button, the debugging timer will start. Once you have completed your debugging please click on the stop button to stop the timer. This study is proctored so please reach out to the administrator for guidance. <br/>
-                                Please follow the instructions and prerequisites mentioned <a href="{{s.download_link}}" target="_download">here</a> to setup your development environment before you click on start.<br/>
-                            </label>
-                            <div class="row">
-                                <div class="col-sm-2">
-                                    <button class="btn btn-lg btn-outline-primary btn-block start-stop" data-state="start" data-id="{{s.script_id}}" id="start-stop-{{s.script_id}}">
-                                        Start
-                                    </button>
-                                </div>
-                                <div class="col-sm-10">
-                                    <div class="alert alert-danger fade" role="alert" id="alert-{{s.script_id}}">
-                                        <div class="spinner-border" role="status">
-                                            <span class="sr-only">Loading...</span>
+                <div class="col-sm-8" id="parent-block" data-id-list="{{script_id_list}}">
+                {% for s in scripts %}
+                    <div class="col-sm-12 form-div">
+                        <form class="form-entry">
+                            <h1 class="h3 mb-3 font-weight-normal">Game of Life - {{s.script_title}}</h1>
+                            <div class="col-sm-12 questions">
+                                <label class="question-guide">
+                                    In order to start debugging the code please click the Start button below. Onclicking the Start button, the debugging timer will start. Once you have completed your debugging please click on the stop button to stop the timer. This study is proctored so please reach out to the administrator for guidance. <br/>
+                                    Before starting your debug session please familiarize yourself with the online IDE linked <a href="{{s.download_link}}" target="_blank">here</a>. You can run your code and test cases on that link. For further instructions on test cases to satisfy please follow this <a href="{{s.download_link}}" target="_blank">documentation</a><br/>
+                                </label>
+                                <div class="row">
+                                    <div class="col-sm-2">
+                                        <button class="btn btn-lg btn-outline-primary btn-block start-stop" data-state="start" data-id="{{s.script_id}}" id="start-stop-{{s.script_id}}">
+                                            Start
+                                        </button>
+                                    </div>
+                                    <div class="col-sm-10">
+                                        <div class="alert alert-danger fade" role="alert" id="alert-{{s.script_id}}">
+                                            <div class="spinner-border" role="status">
+                                                <span class="sr-only">Loading...</span>
+                                            </div>
+                                            <value class="alert-text"></value>
                                         </div>
-                                        <value class="alert-text"></value>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <textarea class="form-control script-box" id="script-box-{{s.script_id}}" disabled>{{s.raw_url}}</textarea>
                                     </div>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col-sm-12">
-                                    <textarea class="form-control script-box" disabled>{{s.raw_url}}</textarea>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            {% endfor %}
+                        </form>
+                    </div>
+                {% endfor %}
+                </div>    
             <div class="col-sm-2"></div>
         </div>
     </div>

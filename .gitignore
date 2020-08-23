@@ -5,3 +5,5 @@
 .DS_Store
 *.pycwebapp_venv/
 ./webapp_venv/
+*.pyc
+*.env

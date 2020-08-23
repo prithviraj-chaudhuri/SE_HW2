@@ -6,12 +6,9 @@ from rest_framework.response import Response
 from .models import Questionnaire, QuestionnaireResponse
 
 # Create your views here.
-
-
 def index(request):
     context = {}
     return render(request, 'index.html', context) 
-
 
 def questionnaire(request, token):
     #Load questions here
@@ -46,6 +43,7 @@ def code(request, token):
     scripts = script_object.get_all_scripts()
     context = {}
     script_list = []
+    script_id_list = []
     for s in scripts:
         script = {}
         script["script_id"] = s['script_id']
@@ -54,9 +52,10 @@ def code(request, token):
         r = requests.get(url = s['raw_url'], params = {})
         script["raw_url"] = r.text
         script_list.append(script)
-    context = {"scripts":script_list}
-    return render(request, 'code.html', context)
+        script_id_list.append(str(s['script_id']))
 
+    context = {"scripts":script_list, "script_id_list": ','.join(script_id_list)}
+    return render(request, 'code.html', context)
 
 def format_script(text):
     text = text.split("\n")
@@ -64,6 +63,7 @@ def format_script(text):
     for l in text:
         script += "<code>" + l + "</code>"
     return script
+
 
 
 class QuestionnaireAPI(generics.ListAPIView):
