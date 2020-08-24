@@ -16,13 +16,21 @@
             <div class="col-sm-2"></div>
             <div class="col-sm-8 form-div">
                 <form class="form-entry" id="questionnaire-form" data-id-list="{{question_id_list}}">
-                    <h1 class="h3 mb-3 font-weight-normal">Please fill out this form before proceeding</h1>
+                    <h1 class="h3 mb-3 font-weight-normal">Please fill out this form before  proceeding</h1>
                     {% for q in questions %}
                         <div class="col-sm-12 questions">
                             <label for="question-{{q.pk}}" class="question-label">{{q.fields.question}}</label>
                             {% for c in q.choices %}
                                 <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="question-{{q.pk}}" id="question-{{q.pk}}-{{c}}" value="{{c}}">
+                                    {% if q.response == "-1" %}
+                                        <input class="form-check-input" type="radio" name="question-{{q.pk}}" id="question-{{q.pk}}-{{c}}" value="{{c}}">
+                                    {% else %}
+                                        {% if q.response == c %}
+                                            <input class="form-check-input" type="radio" name="question-{{q.pk}}" id="question-{{q.pk}}-{{c}}" value="{{c}}" checked disabled>
+                                        {% else %}
+                                            <input class="form-check-input" type="radio" name="question-{{q.pk}}" id="question-{{q.pk}}-{{c}}" value="{{c}}" disabled>
+                                        {% endif %}
+                                    {% endif %}
                                     <label class="form-check-label" for="question-{{q.pk}}-{{c}}">
                                         {{c}}
                                     </label>
@@ -38,16 +46,29 @@
                         <value class="alert-text"></value>
                     </div>
                     <div class="row">
-                        <div class="col-sm-6">
-                            <button class="btn btn-md btn-outline-primary btn-block" type="reset" id="reset">
-                                Reset
-                            </button>
-                        </div>
-                        <div class="col-sm-6">
-                            <button class="btn btn-md btn-primary btn-block" type="submit" id="submit">
-                                Submit
-                            </button>
-                        </div>
+                        {% if responded %}
+                            <div class="col-sm-6">
+                                <button class="btn btn-md btn-outline-primary btn-block" type="reset" id="reset" disabled>
+                                    Reset
+                                </button>
+                            </div>
+                            <div class="col-sm-6">
+                                <button class="btn btn-md btn-primary btn-block" type="submit" id="submit" disabled>
+                                    Submit
+                                </button>
+                            </div>
+                        {% else %}
+                            <div class="col-sm-6">
+                                <button class="btn btn-md btn-outline-primary btn-block" type="reset" id="reset">
+                                    Reset
+                                </button>
+                            </div>
+                            <div class="col-sm-6">
+                                <button class="btn btn-md btn-primary btn-block" type="submit" id="submit">
+                                    Submit
+                                </button>
+                            </div>
+                        {% endif %}
                     </div>
                 </form>
             </div>

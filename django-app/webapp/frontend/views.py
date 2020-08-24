@@ -11,9 +11,13 @@ def index(request):
     context = {}
     return render(request, 'index.html', context) 
 
+
 def questionnaire(request, token):
     #Load questions here
     questions = Questionnaire.objects.get_all_questions()
+    responses = QuestionnaireResponse.objects.get_responses(token=token)
+    responded = False
+
     context = {}
     context['questions'] = []
     question_id_list = []
@@ -21,10 +25,17 @@ def questionnaire(request, token):
         q['choices'] = []
         for i in range(1, 6):
             q['choices'].append(str(i))
+        for r in responses:
+            responded = True
+            if r['fields']['question_id'] == q['pk']:
+                q['response'] = str(r['fields']['response'])
         question_id_list.append(str(q['pk']))
         context['questions'].append(q)
     context['question_id_list'] = ','.join(question_id_list)
+    context['responded'] = responded
     return render(request, 'questionnaire.html', context)
+
+
 
 def code(request, token):
     script_object = Scripts.objects
