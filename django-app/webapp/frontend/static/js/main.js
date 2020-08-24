@@ -95,74 +95,85 @@ $(document).ready(function () {
         //On success
         
 
-        var id_list = $('#parent-block').data('id-list');
+        var id_list = $('#parent-block').data('id-list').toString();
         id_list = id_list.split(',');
         
-        if (action == "start") {
-            for (var i=0;i<id_list.length; i++) {
-                if (id_list[i] != id && $('#start-stop-'+id_list[i]).data('state') != 'done')
-                    $('#start-stop-'+id_list[i]).attr('disabled',true)
-            }
-            $('#script-box-'+id).show();
-            $('#alert-'+id+' .alert-text').html("The debug session has started");
-            $('#alert-'+id).addClass('show');
-            $('#alert-'+id+' .spinner-border').hide();
-            $('#start-stop-'+id).html('Stop');
-            $('#start-stop-'+id).data( "state","stop");
-        } else {
-            for (var i=0;i<id_list.length; i++) {
-                if (id_list[i] != id && $('#start-stop-'+id_list[i]).data('state') != 'done')
-                    $('#start-stop-'+id_list[i]).attr('disabled',false)
-            }
-            $('#script-box-'+id).hide();
-            $('#alert-'+id+' .alert-text').html("The debug session has stopped");
-            $('#alert-'+id).addClass('show');
-            $('#alert-'+id+' .spinner-border').hide();
-            $('#start-stop-'+id).data( "state","done");
-            $('#start-stop-'+id).attr('disabled',true)
-        }
-
-        // $.ajax({
-        //     url: window.location.protocol + "//" + window.location.host + "/record/",
-        //     data: {"action":action, "token": token, "language":"g"},
-        //     type: "POST",
-        //     beforeSend: function( xhr ) {
-        //         $('#start-stop-'+id).attr('disabled',true)
-        //         $('#alert-'+id).addClass('show');
-        //         $('#alert-'+id+' .alert-text').html("Please wait...");
-        //         $('#alert-'+id+' .spinner-border').show();
-        //     },
-        //     success: function (result) {
-        //         $('#start-stop-'+id).attr('disabled',true)
-        //         if (result['status'] == 0) {
-        //             $('#alert-'+id+' .spinner-border').hide();
-        //             if (action == "start") {
-        //                 $('#alert-'+id+' .alert-text').html("The debug session has started");
-        //                 $('#start-stop-'+id).html('Stop');
-        //                 $('#start-stop-'+id).data( "state","stop");
-        //             } else {
-        //                 $('#alert-'+id+' .alert-text').html("The debug session has stopped");
-        //                 $('#start-stop-'+id).html('Start');
-        //                 $('#start-stop-'+id).data( "state","start");
-        //                 $('#start-stop-'+id).attr('disabled', true);
-        //             }
-        //         } else {
-        //             $('#start-stop-'+id).html('Start');
-        //             $('#start-stop-'+id).attr('disabled', false);
-        //             $('#alert-'+id+' .spinner-border').hide();
-        //             $('#alert-'+id).addClass('show');
-        //             $('#alert-'+id+' .alert-text').html("Some error occured");
-        //         }
-        //         console.log("Error starting  ",result);
-        //     },
-        //     error: function (res) {
-        //         $('#start-stop-'+id).html('Start');
-        //         $('#start-stop-'+id).attr('disabled', false);
-        //         $('#alert-'+id+' .spinner-border').hide();
-        //         $('#alert-'+id+' .alert-text').html("Some error occured");
-        //         $('#alert-'+id).addClass('show');
-        //         console.log("Error starting  ",res);
+        // if (action == "start") {
+        //     for (var i=0;i<id_list.length; i++) {
+        //         if (id_list[i] != id && $('#start-stop-'+id_list[i]).data('state') != 'done')
+        //             $('#start-stop-'+id_list[i]).attr('disabled',true)
         //     }
-        // });
+        //     $('#script-box-'+id).show();
+        //     $('#alert-'+id+' .alert-text').html("The debug session has started");
+        //     $('#alert-'+id).addClass('show');
+        //     $('#alert-'+id+' .spinner-border').hide();
+        //     $('#start-stop-'+id).html('Stop');
+        //     $('#start-stop-'+id).data( "state","stop");
+        // } else {
+        //     for (var i=0;i<id_list.length; i++) {
+        //         if (id_list[i] != id && $('#start-stop-'+id_list[i]).data('state') != 'done')
+        //             $('#start-stop-'+id_list[i]).attr('disabled',false)
+        //     }
+        //     $('#script-box-'+id).hide();
+        //     $('#alert-'+id+' .alert-text').html("The debug session has stopped");
+        //     $('#alert-'+id).addClass('show');
+        //     $('#alert-'+id+' .spinner-border').hide();
+        //     $('#start-stop-'+id).data( "state","done");
+        //     $('#start-stop-'+id).attr('disabled',true)
+        // }
+
+        $.ajax({
+            url: window.location.protocol + "//" + window.location.host + "/record/",
+            data: {"action":action, "token": token, "language":id},
+            type: "POST",
+            beforeSend: function( xhr ) {
+                $('#start-stop-'+id).attr('disabled',true)
+                $('#alert-'+id).addClass('show');
+                $('#alert-'+id+' .alert-text').html("Please wait...");
+                $('#alert-'+id+' .spinner-border').show();
+            },
+            success: function (result) {
+                $('#start-stop-'+id).attr('disabled',false)
+                if (result == true || result['status'] == 0) {
+                    if (action == "start") {
+                        for (var i=0;i<id_list.length; i++) {
+                            if (id_list[i] != id && $('#start-stop-'+id_list[i]).data('state') != 'done')
+                                $('#start-stop-'+id_list[i]).attr('disabled',true)
+                        }
+                        $('#script-box-'+id).show();
+                        $('#alert-'+id+' .alert-text').html("The debug session has started");
+                        $('#alert-'+id).addClass('show');
+                        $('#alert-'+id+' .spinner-border').hide();
+                        $('#start-stop-'+id).html('Stop');
+                        $('#start-stop-'+id).data( "state","stop");
+                    } else {
+                        for (var i=0;i<id_list.length; i++) {
+                            if (id_list[i] != id && $('#start-stop-'+id_list[i]).data('state') != 'done')
+                                $('#start-stop-'+id_list[i]).attr('disabled',false)
+                        }
+                        $('#script-box-'+id).hide();
+                        $('#alert-'+id+' .alert-text').html("The debug session has stopped");
+                        $('#alert-'+id).addClass('show');
+                        $('#alert-'+id+' .spinner-border').hide();
+                        $('#start-stop-'+id).data( "state","done");
+                        $('#start-stop-'+id).attr('disabled',true)
+                    }
+                } else {
+                    $('#start-stop-'+id).html('Start');
+                    $('#start-stop-'+id).attr('disabled', false);
+                    $('#alert-'+id+' .spinner-border').hide();
+                    $('#alert-'+id).addClass('show');
+                    $('#alert-'+id+' .alert-text').html("Some error occured");
+                }
+            },
+            error: function (res) {
+                $('#start-stop-'+id).html('Start');
+                $('#start-stop-'+id).attr('disabled', false);
+                $('#alert-'+id+' .spinner-border').hide();
+                $('#alert-'+id+' .alert-text').html("Some error occured");
+                $('#alert-'+id).addClass('show');
+                console.log("Error starting  ",res);
+            }
+        });
     });
 });
