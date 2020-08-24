@@ -3,3 +3,9 @@
 .idea/
 ./*__pycache__
 ./webapp_venv/
+.DS_Store
+*.pycwebapp_venv/
+./webapp_venv/
+*.pyc
+*.env
+.vscode
