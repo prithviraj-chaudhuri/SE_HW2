@@ -57,23 +57,27 @@ $(document).ready(function () {
             responses.push(res);
         }
 
-        console.log(JSON.stringify({"responses":responses}));
-        console.log(window.location.protocol + "//" + window.location.host + "/questionnaireapi/questionresponse/");
-
         $.ajax({
             url: window.location.protocol + "//" + window.location.host + "/questionnaireapi/questionresponse/",
             data: {"responses":JSON.stringify(responses)},
             type: "POST",
             beforeSend: function( xhr ) {
-                //Loader
+                $('#submit').attr('disabled',true);
+                $('#reset').attr('disabled',true);
+                $('#questionnaire-form .alert').addClass('show');
+                $('#questionnaire-form .alert .spinner-border').show();
+                $('#questionnaire-form .alert .alert-text').html('Saving answers...');
             },
             success: function (result) {
-                //window.location.href = window.location.protocol + "//" + window.location.host + "/code/"+token; 
-                //Loader
+                window.location.href = window.location.protocol + "//" + window.location.host + "/code/"+token; 
                 console.log("Log result  ",result);
             },
             error: function (res) {
-                //Loader
+                $('#submit').attr('disabled',false);
+                $('#reset').attr('disabled',false);
+                $('#questionnaire-form .alert').addClass('show');
+                $('#questionnaire-form .alert .spinner-border').hide();
+                $('#questionnaire-form .alert .alert-text').html('Saving answers...');
                 console.log("Error starting  ",res);
             }
         });

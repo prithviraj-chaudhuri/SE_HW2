@@ -31,6 +31,12 @@
                         </div>
                         <hr/>
                     {% endfor %}
+                    <div class="alert alert-danger alert-dismissible fade" role="alert">
+                        <div class="spinner-border" role="status">
+                            <span class="sr-only">Loading...</span>
+                        </div>
+                        <value class="alert-text"></value>
+                    </div>
                     <div class="row">
                         <div class="col-sm-6">
                             <button class="btn btn-md btn-outline-primary btn-block" type="reset" id="reset">
@@ -42,12 +48,6 @@
                                 Submit
                             </button>
                         </div>
-                    </div>
-                    <div class="alert alert-danger alert-dismissible fade" role="alert">
-                        <div class="spinner-border" role="status">
-                            <span class="sr-only">Loading...</span>
-                        </div>
-                        <value class="alert-text"></value>
                     </div>
                 </form>
             </div>
