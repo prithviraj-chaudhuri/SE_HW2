@@ -54,7 +54,7 @@ fn live(mut a: &Vec<i32>, r: usize, col:usize, mut gen: i32)->Vec<i32>{
         print!{"O"};
       }
       else {
-        print!{" "};
+        print!{"-"};
       }
     
     }
@@ -109,7 +109,7 @@ fn live(mut a: &Vec<i32>, r: usize, col:usize, mut gen: i32)->Vec<i32>{
         print!{"O"};
       }
       else {
-        print!{" "};
+        print!{"-"};
       }
     }
     
@@ -145,7 +145,7 @@ fn main(){
               print!{"O"};
             }
              else {
-                print!{" "};
+                print!{"-"};
             }
         }
         new=live(&count,rows,cols,generations);

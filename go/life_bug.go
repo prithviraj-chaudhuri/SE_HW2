@@ -7,7 +7,10 @@ import (
 	"os/exec"
 	"runtime"
 	"time"
+	"strconv"
 )
+
+var return_val int = 0
 
 func cls(){
 	if runtime.GOOS == "windows"{
@@ -19,6 +22,28 @@ func cls(){
 		clearScreen.Stdout = os.Stdout
 		clearScreen.Run()
 	}
+
+}
+
+func verify_generation(gen int, now []int) bool{
+
+	equal := true
+	final := []int{0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0}
+	if gen == 4 {
+		final[0] = 1
+		final[1] = 1
+		final[21] = 1
+	}
+
+	for i, v := range now {
+		equal = (final[i]==v && equal)
+	    if !equal {
+			fmt.Printf("%#v %#v %#v\n", equal, final[i], v)
+			break
+	    }
+	}
+	fmt.Printf("Your generation is: %#v", strconv.FormatBool(equal))
+	return equal
 
 }
 
@@ -35,7 +60,7 @@ func get_neighbors(now []int, ind int, rows int, cols int) int{
 	return 0
 }
 
-func live(now []int, rows int, cols int, generations int) int{
+func live(now []int, rows int, cols int, generations int, debug int) int{
 
 	/*
 	This method prints gof board after every iteration and then updates
@@ -45,21 +70,34 @@ func live(now []int, rows int, cols int, generations int) int{
 	if generations < 1{
 		sleep()
 		cls()
+		fmt.Println("\nGeneration", generations)
+		if debug == 1 {
+			if generations!=5 && !verify_generation(generations, now){
+				return_val=1
+			}
+		}
+		fmt.Printf("\n")
 		for c := 0; c < rows*cols; c++{
 			if now[c] == 1{
 				fmt.Printf("o")
 			}else{
-				fmt.Printf(" ")
+				fmt.Printf("-")
 			}
 			if (c+1)%rows == 0{
 				fmt.Printf("\n")
 			}
 		}
-		return 0
+		return return_val
 	}else{
 		sleep()
 		cls()
 		fmt.Println("\nGeneration", generations)
+
+		if debug == 1 {
+			if generations!=5 && !verify_generation(generations, now){
+				return_val=1
+			}
+		}
 
 		fmt.Printf("\n")
 
@@ -67,7 +105,7 @@ func live(now []int, rows int, cols int, generations int) int{
 			if now[c] == 1{
 				fmt.Printf("o")
 			}else{
-				fmt.Printf(" ")
+				fmt.Printf("-")
 			}
 			if (c+1)%rows == 0{
 				fmt.Printf("\n")
@@ -102,8 +140,8 @@ func live(now []int, rows int, cols int, generations int) int{
 			}
 		}
 		generations = generations -1
-		live(newNow, rows, cols, generations)
-		return 0
+		live(newNow, rows, cols, generations, debug)
+		return return_val
 	}
 }
 
@@ -144,13 +182,17 @@ func main(){
 
 	args := os.Args[1:]
 
-	if len(args) == 0{
+	if len(args) > 0{
 		initialize()
 		now := life(50, 20, 0.619)
-		live(now, 50, 20, 200)
+		live(now, 50, 20, 200, 0)
 	}else{
 		now := []int{1,1,0,1,1, 1,0,1,1,1, 1,1,0,1,0, 1,0,1,1,1, 1,1,0,1,1}
-		live(now, 5, 5, 5)
+		if live(now, 5, 5, 5, 1) == 0{
+			fmt.Println("All Good")
+		}else {
+			fmt.Println("Not Good")
+		}
 	}
 
 
