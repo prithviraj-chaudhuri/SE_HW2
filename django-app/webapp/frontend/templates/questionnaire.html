@@ -22,7 +22,7 @@
                             <label for="question-{{q.pk}}" class="question-label">{{q.fields.question}}</label>
                             {% for c in q.choices %}
                                 <div class="form-check">
-                                    {% if q.response == "-1" %}
+                                    {% if not responded %}
                                         <input class="form-check-input" type="radio" name="question-{{q.pk}}" id="question-{{q.pk}}-{{c}}" value="{{c}}">
                                     {% else %}
                                         {% if q.response == c %}

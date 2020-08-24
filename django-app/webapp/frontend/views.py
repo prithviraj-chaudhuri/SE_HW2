@@ -1,10 +1,13 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from gol.models import Scripts
-import requests
+from tokens.models import Token
 from rest_framework import generics
 from rest_framework.response import Response
 from .models import Questionnaire, QuestionnaireResponse
+
+import requests
 import json
+import logging
 
 # Create your views here.
 def index(request):
@@ -14,6 +17,10 @@ def index(request):
 
 def questionnaire(request, token):
     #Load questions here
+    if token_used(token) == False:
+        response = redirect('/')
+        return response
+
     questions = Questionnaire.objects.get_all_questions()
     responses = QuestionnaireResponse.objects.get_responses(token=token)
     responded = False
@@ -38,6 +45,11 @@ def questionnaire(request, token):
 
 
 def code(request, token):
+
+    if token_used(token) == False:
+        response = redirect('/')
+        return response
+
     script_object = Scripts.objects
     scripts = script_object.get_all_scripts()
     context = {}
@@ -56,13 +68,16 @@ def code(request, token):
     context = {"scripts":script_list, "script_id_list": ','.join(script_id_list)}
     return render(request, 'code.html', context)
 
-def format_script(text):
-    text = text.split("\n")
-    script = ""
-    for l in text:
-        script += "<code>" + l + "</code>"
-    return script
-
+def token_used(token):
+    unused_tokens = Token.objects.get_unused_token()
+    for ut in unused_tokens:
+        if ut['fields']['token'] == token:
+            return False
+    all_tokens = Token.objects.get_all_tokens()
+    for at in all_tokens:
+        if at['token'] == token:
+            return True
+    return False
 
 
 class QuestionnaireAPI(generics.ListAPIView):
