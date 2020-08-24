@@ -60,6 +60,9 @@ def code(request, token):
     context = {}
     script_list = []
     script_id_list = []
+
+    in_progress = False
+
     for s in scripts:
         script = {}
         script["script_id"] = s['script_id']
@@ -77,8 +80,9 @@ def code(request, token):
                     script['responded'] = "yes"
                 else:
                     script['responded'] = "progress"
+                    in_progress = True
 
-    context = {"scripts":script_list, "script_id_list": ','.join(script_id_list)}
+    context = {"scripts":script_list, "script_id_list": ','.join(script_id_list), "in_progres":in_progress}
     return render(request, 'code.html', context)
 
 def token_used(token):
