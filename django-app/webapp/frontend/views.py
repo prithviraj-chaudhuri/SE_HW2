@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from gol.models import Scripts
 from tokens.models import Token
+from records.models import Record
 from rest_framework import generics
 from rest_framework.response import Response
 from .models import Questionnaire, QuestionnaireResponse
@@ -52,6 +53,10 @@ def code(request, token):
 
     script_object = Scripts.objects
     scripts = script_object.get_all_scripts()
+
+    record_object = Record.objects
+    records = record_object.get_records(token=token);
+
     context = {}
     script_list = []
     script_id_list = []
@@ -65,6 +70,13 @@ def code(request, token):
         script["raw_url"] = r.text
         script_list.append(script)
         script_id_list.append(str(s['script_id']))
+        script['responded'] = "no"
+        for r in records:
+            if r['fields']['language'] == script["script_id"]:
+                if len(r['fields']['duration']) > 0:
+                    script['responded'] = "yes"
+                else:
+                    script['responded'] = "progress"
 
     context = {"scripts":script_list, "script_id_list": ','.join(script_id_list)}
     return render(request, 'code.html', context)
