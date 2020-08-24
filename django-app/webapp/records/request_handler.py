@@ -18,12 +18,13 @@ def create_new_record(data):
 
 def update_record(data):
 
-    is_updated = Record.objects.update_record(token=data["token"], language=data["language"])
+    res = Record.objects.update_record(token=data["token"], language=data["language"])
 
-    if is_updated:
+    if res["status"] == 0:
         return {
             "status": 0,
-            "message": "success"
+            "message": "success",
+            "duration": res["duration"]
         }
     else:
         return {

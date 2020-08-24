@@ -92,35 +92,8 @@ $(document).ready(function () {
         var action = $(this).data( "state");
         var id = $(this).data("id");
 
-        //On success
-        
-
         var id_list = $('#parent-block').data('id-list').toString();
         id_list = id_list.split(',');
-        
-        // if (action == "start") {
-        //     for (var i=0;i<id_list.length; i++) {
-        //         if (id_list[i] != id && $('#start-stop-'+id_list[i]).data('state') != 'done')
-        //             $('#start-stop-'+id_list[i]).attr('disabled',true)
-        //     }
-        //     $('#script-box-'+id).show();
-        //     $('#alert-'+id+' .alert-text').html("The debug session has started");
-        //     $('#alert-'+id).addClass('show');
-        //     $('#alert-'+id+' .spinner-border').hide();
-        //     $('#start-stop-'+id).html('Stop');
-        //     $('#start-stop-'+id).data( "state","stop");
-        // } else {
-        //     for (var i=0;i<id_list.length; i++) {
-        //         if (id_list[i] != id && $('#start-stop-'+id_list[i]).data('state') != 'done')
-        //             $('#start-stop-'+id_list[i]).attr('disabled',false)
-        //     }
-        //     $('#script-box-'+id).hide();
-        //     $('#alert-'+id+' .alert-text').html("The debug session has stopped");
-        //     $('#alert-'+id).addClass('show');
-        //     $('#alert-'+id+' .spinner-border').hide();
-        //     $('#start-stop-'+id).data( "state","done");
-        //     $('#start-stop-'+id).attr('disabled',true)
-        // }
 
         $.ajax({
             url: window.location.protocol + "//" + window.location.host + "/record/",
@@ -152,7 +125,7 @@ $(document).ready(function () {
                                 $('#start-stop-'+id_list[i]).attr('disabled',false)
                         }
                         $('#script-box-'+id).hide();
-                        $('#alert-'+id+' .alert-text').html("The debug session has stopped");
+                        $('#alert-'+id+' .alert-text').html("The debug session has stopped. Total debug time : "+result["duration"]+" seconds");
                         $('#alert-'+id).addClass('show');
                         $('#alert-'+id+' .spinner-border').hide();
                         $('#start-stop-'+id).data( "state","done");

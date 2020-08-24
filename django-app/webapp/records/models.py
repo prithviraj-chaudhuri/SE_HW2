@@ -34,9 +34,9 @@ class RecordManager(models.Manager):
             difference = (end_time - start_time)
             record.duration = str(difference.total_seconds())
             record.save()
-            return True
+            return {"status":0, "duration":record.duration}
         else:
-            return False
+            return {"status":1, "duration":"0"}
 
 
 class Record(models.Model):
