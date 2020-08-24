@@ -2,12 +2,13 @@ from rest_framework import generics
 from rest_framework.response import Response
 from .serializer import RecordSerializer
 from .request_dispatcher import *
+import json
 
 
 error_response = {
     "data": [],
     "status": 1,
-    "message": "error"
+    "message": "record"
 }
 
 
@@ -22,18 +23,10 @@ class Record(generics.ListAPIView, generics.CreateAPIView):
     def post(self, request, *args, **kwargs):
         action = request.data['action']
         if action == "start":
-            serializer = RecordSerializer(data=request.data)
             response = None
-            if serializer.is_valid():
-                response = dispatch_record_create_request(request)
-            else:
-                response = error_response
+            response = dispatch_record_create_request(request)
         elif action == "stop":
-            serializer = RecordSerializer(data=request.data)
             response = None
-            if serializer.is_valid():
-                response = dispatch_record_create_request(request)
-            else:
-                response = error_response
+            response = dispatch_record_update_request(request)
 
         return Response(data=response)

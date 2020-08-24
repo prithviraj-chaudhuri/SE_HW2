@@ -8,3 +8,4 @@
 ./webapp_venv/
 *.pyc
 *.env
+.vscode

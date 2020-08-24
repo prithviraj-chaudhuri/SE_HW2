@@ -60,6 +60,7 @@ def code(request, token):
         script["script_id"] = s['script_id']
         script["script_title"] = s['script_title']
         script["download_link"] = s['download_link']
+        script["readme_link"] = s['readme_link']
         r = requests.get(url = s['raw_url'], params = {})
         script["raw_url"] = r.text
         script_list.append(script)
