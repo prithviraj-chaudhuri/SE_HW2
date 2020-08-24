@@ -16,7 +16,7 @@ fn cls(){
     //print!("\x1B[2J\x1B[1;1H");
 }
 
-fn live(mut a: &Vec<i32>, r: usize, col:usize, mut gen: i32)->Vec<i32>{
+fn live(mut a: &Vec<i32>, r: usize, col:usize, mut gen: i32, debug: usize, mut return_val: usize)->(Vec<i32>, usize){
     
     sleep();
     cls();
@@ -24,7 +24,7 @@ fn live(mut a: &Vec<i32>, r: usize, col:usize, mut gen: i32)->Vec<i32>{
     let rc:usize=r*col;
     let mut new: Vec<i32> = vec![0; rc];
     let mut new1: Vec<i32> = vec![0; rc];
-    
+
     gen=gen-1;
     println!();
     println!("generation is {}",gen);
@@ -54,25 +54,31 @@ fn live(mut a: &Vec<i32>, r: usize, col:usize, mut gen: i32)->Vec<i32>{
         print!{"O"};
       }
       else {
-        print!{" "};
+        print!{"-"};
       }
     
     }
-    
-    
-    
+
+    if debug == 1 {
+			if gen!=5 && !verify_generation(gen,&new){
+				return_val=1;
+      }
+		}
+
     if gen!=0 {
         sleep();
         cls();
-        new1=live(&new,r,col,gen);
+        let (new1, return_val) = live(&new,r,col,gen, debug, return_val);
+        return (new1,return_val);
     }
     else
     {
         new1=new.clone();
+        return (new1,return_val);
     }
-    return new1;
+    
   }
-  
+
   fn check_Valid(n:usize,rc:usize,val:&[i32])->i32 {
       if n>=0 && n<rc {
         return val[n];
@@ -82,13 +88,39 @@ fn live(mut a: &Vec<i32>, r: usize, col:usize, mut gen: i32)->Vec<i32>{
         return 0;
       }
   }
-  
+
+  fn verify_generation(mut gen: i32, mut a: &Vec<i32>)->bool {
+    let mut flag:bool=true;
+    let mut result: Vec<i32> = vec![0,0,0,0,0,0,0,0,0];
+    if gen == 3 {
+      result = vec![0,1,0,1,1,1,1,0,1];
+    }
+    else if gen == 2 {
+      result = vec![1,1,0,0,0,0,0,0,1];
+    }
+    else if gen == 1 {
+      result = vec![0,0,0,0,1,0,0,0,0];
+    }
+
+    println!(); 
+    for c in 0..a.len(){
+      flag = flag && result[c]==a[c];
+      if !flag {
+        println!("First incorrect index is {}",c);
+        break;
+      }
+    }
+
+    return flag;
+  }
   
 
-  fn create_vector(cols:usize, rows:usize,some:f64,mut generations:i32)->i32 {
+  fn create_vector(cols:usize, rows:usize,some:f64,mut generations:i32, debug:usize)->i32 {
     let mut count: Vec<i32> = Vec::with_capacity(rows*cols);
     let mut rng = rand::thread_rng();
     let length:usize = rows*cols;
+    let mut return_v: usize;
+
     for i in 0..length{
         let y: f64 = rng.gen();
         if y<some{
@@ -109,12 +141,12 @@ fn live(mut a: &Vec<i32>, r: usize, col:usize, mut gen: i32)->Vec<i32>{
         print!{"O"};
       }
       else {
-        print!{" "};
+        print!{"-"};
       }
     }
     
     let mut new: Vec<i32> = Vec::with_capacity(cols*rows);
-    new=live(&count,rows,cols,generations);
+    let (new,return_v) = live(&count,rows,cols,generations,debug, 0);
     return 0;
   }
 
@@ -122,7 +154,7 @@ fn main(){
     let mut choice: i32=2;
     if(choice==1)
     {
-        create_vector(50,20,0.619,200);
+        create_vector(50,20,0.619,200, 0);
     }
     else
     {
@@ -145,26 +177,20 @@ fn main(){
               print!{"O"};
             }
              else {
-                print!{" "};
+                print!{"-"};
             }
         }
-        new=live(&count,rows,cols,generations);
-        let mut flag:bool=false;
-        for c in 0..new.len(){
-            if (new[c]!=result[c]){
-              flag=true;
-              println!("index is {}",c);
-              break;
-            }
-        }
-        if(flag)
+        let mut flag:usize=0;
+        let (new,flag)=live(&count,rows,cols,generations, 1, 0);
+
+        if flag == 1
         {
-            println!("Failure ");
+            println!("Failure");
         }
         else
         {
             println!("Passed");
-            }
+        }
     }
     
 }

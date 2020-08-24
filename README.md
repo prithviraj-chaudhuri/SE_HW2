@@ -1,6 +1,7 @@
 # SE_HW2
 [![Build Status](https://travis-ci.org/Ayushi61/SE_HW2.svg?branch=master)](https://travis-ci.org/Ayushi61/SE_HW2)
 [![DOI](https://zenodo.org/badge/288771152.svg)](https://zenodo.org/badge/latestdoi/288771152)
+
 Game Of Life - In 3 different languages- Experiment
 
 #### Table Of Contents
