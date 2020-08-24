@@ -78,6 +78,7 @@ def code(request, token):
             if r['fields']['language'] == script["script_id"]:
                 if len(r['fields']['duration']) > 0:
                     script['responded'] = "yes"
+                    script['duration'] = r['fields']['duration']
                 else:
                     script['responded'] = "progress"
                     in_progress = True
