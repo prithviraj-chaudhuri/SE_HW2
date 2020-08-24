@@ -65,7 +65,7 @@ implicit none
             write(*,*)
         endif
         if(d(i) .eq. 0) then
-            write(*,"(1x, A)",advance="no") " "
+            write(*,"(1x, A)",advance="no") "-"
         else
             write(*,"(1x, A)",advance="no") "o"
         endif
@@ -131,7 +131,7 @@ implicit none
             write(*,*)
         endif
         if(b(i) .eq. 0) then
-            write(*,"(1x, A)",advance="no") " "
+            write(*,"(1x, A)",advance="no") "-"
         else
             write(*,"(1x, A)",advance="no") "o"
         endif

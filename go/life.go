@@ -45,11 +45,12 @@ func live(now []int, rows int, cols int, generations int) int{
 	if generations < 1{
 		sleep()
 		cls()
+		fmt.Println("\nGeneration", generations)
 		for c := 0; c < rows*cols; c++{
 			if now[c] == 1{
 				fmt.Printf("o")
 			}else{
-				fmt.Printf(" ")
+				fmt.Printf("-")
 			}
 			if (c+1)%rows == 0{
 				fmt.Printf("\n")
@@ -67,7 +68,7 @@ func live(now []int, rows int, cols int, generations int) int{
 			if now[c] == 1{
 				fmt.Printf("o")
 			}else{
-				fmt.Printf(" ")
+				fmt.Printf("-")
 			}
 			if (c+1)%rows == 0{
 				fmt.Printf("\n")
@@ -144,7 +145,7 @@ func main(){
 
 	args := os.Args[1:]
 
-	if len(args) == 0{
+	if len(args) > 0{
 		initialize()
 		now := life(50, 20, 0.619)
 		live(now, 50, 20, 200)
