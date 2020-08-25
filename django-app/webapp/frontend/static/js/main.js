@@ -151,7 +151,7 @@ $(document).ready(function () {
         });
     });
 
-    checkDone()
+    checkDone();
 
     function checkDone() {
         var id_list = $('#parent-block').data('id-list').toString();

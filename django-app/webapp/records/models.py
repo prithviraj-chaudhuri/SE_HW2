@@ -33,6 +33,7 @@ class RecordManager(models.Manager):
             record.end_time = end_time.isoformat()
             difference = (end_time - start_time)
             record.duration = str(difference.total_seconds())
+            record.debug_successful = True
             record.save()
             return {"status":0, "duration":record.duration}
         else:
@@ -50,4 +51,5 @@ class Record(models.Model):
     start_time = models.CharField(max_length=100, null=False)
     end_time = models.CharField(max_length=100, null=False)
     duration = models.CharField(max_length=200, null=False, default="")
+    debug_successful = models.BooleanField(default=False)
     objects = RecordManager()
