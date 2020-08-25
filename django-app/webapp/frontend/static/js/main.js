@@ -129,7 +129,8 @@ $(document).ready(function () {
                         $('#alert-'+id).addClass('show');
                         $('#alert-'+id+' .spinner-border').hide();
                         $('#start-stop-'+id).data( "state","done");
-                        $('#start-stop-'+id).attr('disabled',true)
+                        $('#start-stop-'+id).attr('disabled',true);
+                        checkDone();
                     }
                 } else {
                     $('#start-stop-'+id).html('Start');
@@ -149,4 +150,24 @@ $(document).ready(function () {
             }
         });
     });
+
+    checkDone()
+
+    function checkDone() {
+        var id_list = $('#parent-block').data('id-list').toString();
+        if (id_list != "undefined") {
+            id_list = id_list.split(',');
+            var done = false;
+            for (var i=0;i<id_list.length; i++) {
+                if ($('#start-stop-'+id_list[i]).data( "state") == "done") {
+                    done = true;
+                } else {
+                    done = false;
+                    break;
+                }
+            }
+            if (done)
+                $('#done-modal').modal('show');
+        }
+    }
 });
