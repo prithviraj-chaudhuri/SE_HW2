@@ -1,6 +1,7 @@
 # DEBUG IN 
 https://ideone.com/
 
+Learn about Game of Life: http://rosettacode.org/wiki/Conway%27s_Game_of_Life
 
 ## Steps to follow:
 1. Go ahead and view the Raw version of life_bug.go
