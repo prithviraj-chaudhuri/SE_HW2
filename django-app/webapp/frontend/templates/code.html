@@ -13,6 +13,11 @@
 <body class="questionnaire-body" style="height:100vh">
     <div class="container-fluid">
         <div class="row">
+            <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+                <a class="navbar-brand" href="#">Group 18 Study</a>
+            </nav>
+        </div>
+        <div class="row">
             <div class="col-sm-2"></div>
                 <div class="col-sm-8" id="parent-block" data-id-list="{{script_id_list}}">
                 {% for s in scripts %}
@@ -49,7 +54,7 @@
                                     <div class="col-sm-10">
                                         {% if s.responded == "yes" %}
                                             <div class="alert alert-danger fade show" role="alert" id="alert-{{s.script_id}}">
-                                                <value class="alert-text">The debug session has stopped</value>
+                                                <value class="alert-text">The debug session has stopped. Total debug time : {{s.duration}} seconds</value>
                                             </div>
                                         {% elif s.responded == "progress" %}
                                             <div class="alert alert-danger fade show" role="alert" id="alert-{{s.script_id}}">
@@ -81,6 +86,24 @@
                         </form>
                     </div>
                 {% endfor %}
+                </div>
+                <div class="modal" tabindex="-1" role="dialog" id="done-modal">
+                    <div class="modal-dialog" role="document">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title">You are done.</h5>
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                        </div>
+                        <div class="modal-body">
+                          <p>Thank you for your time.</p>
+                        </div>
+                        <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="window.location.href = '/'">OK</button>
+                        </div>
+                      </div>
+                    </div>
                 </div>    
             <div class="col-sm-2"></div>
         </div>
