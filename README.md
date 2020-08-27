@@ -38,7 +38,9 @@ Steps to follow:
 8. Complete all sections and you will be redirected to home page back.
 9. Mail your token to the course TA.
 
-[Demonstration for participants](docs/HW2.gif)
+Demonstration for participants:
+
+![](docs/HW2.gif)
 
 ## Experiment
 ### Aim
