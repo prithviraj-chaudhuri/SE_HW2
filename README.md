@@ -20,7 +20,7 @@ Let users debug the Game of Life in three different languages(Fortran, Go and Ru
 ### Steps for the end-users, who use our platform to participate in our study:
 
  * Get the token and application link from admin, who coordinates with you during HW3 session.
- * Enter your token.
+ * Enter your token at http://ec2-3-16-10-131.us-east-2.compute.amazonaws.com:8000/.
  * You are directed to a questionairre which has the following questions, where all of them will require you to select an option from 1 to 5:
    *  How well do you understand Game of life? I understand what is happening. Rate on from 1 to 5, 5 being you understand it completely.
    *  If asked to code from scratch, rate from 1 to 5 how comformtable will you be in doing that, 5 being you can code it sleeping.
