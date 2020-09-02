@@ -48,6 +48,54 @@ class QuestionnaireResponseManager(models.Manager):
 
         return json.loads(serializers.serialize('json', [response for response in responses]))
 
+    def filter_records_1(self):
+        try:
+            records_ques = self.filter(question_id=1).all().values("question_id","token","response")
+            return json.dumps(list(records_ques))
+        except Exception as e:
+            return []
+    def filter_records_2(self):
+        try:
+            records_ques = self.filter(question_id=2).all().values("question_id","token","response")
+            return json.dumps(list(records_ques))
+        except Exception as e:
+            return []
+    def filter_records_3(self):
+        try:
+            records_ques = self.filter(question_id=3).all().values("question_id","token","response")
+            return json.dumps(list(records_ques))
+        except Exception as e:
+            return []
+    def filter_records_4(self):
+        try:
+            records_ques = self.filter(question_id=4).all().values("question_id","token","response")
+            return json.dumps(list(records_ques))
+        except Exception as e:
+            return []
+    def filter_records_5(self):
+        try:
+            records_ques = self.filter(question_id=5).all().values("question_id","token","response")
+            return json.dumps(list(records_ques))
+        except Exception as e:
+            return []
+    def filter_records_6(self):
+        try:
+            records_ques = self.filter(question_id=6).all().values("question_id","token","response")
+            return json.dumps(list(records_ques))
+        except Exception as e:
+            return []
+    def filter_records_7(self):
+        try:
+            records_ques = self.filter(question_id=7).all().values("question_id","token","response")
+            return json.dumps(list(records_ques))
+        except Exception as e:
+            return []
+    def filter_records_8(self):
+        try:
+            records_ques = self.filter(question_id=8).all().values("question_id","token","response")
+            return json.dumps(list(records_ques))
+        except Exception as e:
+            return []
 
 class QuestionnaireResponse(models.Model):
 

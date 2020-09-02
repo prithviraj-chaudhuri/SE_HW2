@@ -24,7 +24,29 @@ class RecordManager(models.Manager):
             return json.loads(serializers.serialize('json', [record for record in records]))
         except Exception as e:
             return []
-    
+
+    def filter_records_1(self):
+        try:
+            records_lang = self.filter(language=1).all().values("token","duration")
+            #records_time=records_lang.values('start_time')
+            return json.dumps(list(records_lang))
+        except Exception as e:
+            return []
+    def filter_records_2(self):
+        try:
+            records_lang = self.filter(language=2).all().values("token","duration")
+            #records_time=records_lang.values('start_time')
+            return json.dumps(list(records_lang))
+        except Exception as e:
+            return []
+    def filter_records_3(self):
+        try:
+            records_lang = self.filter(language=3).all().values("token","duration")
+            #records_time=records_lang.values('start_time')
+            return json.dumps(list(records_lang))
+        except Exception as e:
+            return []
+
     def update_record(self, token, language):
         record = self.get(token=token, language=language)
         if record:
