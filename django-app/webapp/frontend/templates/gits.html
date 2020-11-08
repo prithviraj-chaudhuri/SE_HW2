@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<head>
+    {% load static %}
+    <!--Include Libraries-->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static "css/main.css" %}">
+
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="{% static "js/main.js" %}"></script>
+</head>
+<body class="questionnaire-body" style="height:100vh">
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+                <a class="navbar-brand" href="#">Group 18 Study</a>
+            </nav>
+        </div>
+        <div class="row">
+            <div class="col-sm-2"></div>
+                <div class="col-sm-8" id="parent-block" data-id-list="{{script_id_list}}">
+                {% for s in scripts %}
+                    <div class="col-sm-12 form-div">
+                        <form class="form-entry">
+                            <h1 class="h3 mb-3 font-weight-normal">{{s.script_title}}</h1>
+                            <div class="col-sm-12 questions">
+                                <label class="question-guide">
+                                    Before starting this task please clone the GITS repository and test if it runs in your machine from this <a href="https://github.com/prithvipatl/GITS" target="_blank">here</a>. You will find the additional documenation of the commands in the repository.<br/>
+                                    Standard github command documentation is linked <a href="https://git-scm.com/docs" target="_blank">here</a><br/>
+                                    Additionally, make sure you are added as a collaborator for this <a href="{{s.download_link}}" target="_blank">repository</a>. You will be performing your tasks on this repo.<br/>
+                                </label>
+                                <div class="row">
+                                    <div class="col-sm-2">
+                                        {% if s.responded == "yes" %}
+                                            <button class="btn btn-lg btn-outline-primary btn-block start-stop" data-state="done" data-id="{{s.script_id}}" id="start-stop-{{s.script_id}}" disabled>
+                                            Stop
+                                            </button>
+                                        {% elif s.responded == "progress" %}
+                                            <button class="btn btn-lg btn-outline-primary btn-block start-stop" data-state="stop" data-id="{{s.script_id}}" id="start-stop-{{s.script_id}}">
+                                            Stop
+                                            </button>
+                                        {% else %}
+                                            {% if in_progres %}
+                                                <button class="btn btn-lg btn-outline-primary btn-block start-stop" data-state="start" data-id="{{s.script_id}}" id="start-stop-{{s.script_id}}" disabled>
+                                                Start
+                                                </button>
+                                            {% else %}
+                                                <button class="btn btn-lg btn-outline-primary btn-block start-stop" data-state="start" data-id="{{s.script_id}}" id="start-stop-{{s.script_id}}">
+                                                Start
+                                                </button>
+                                            {% endif %}
+                                        {% endif %}
+                                    </div>
+                                    <div class="col-sm-10">
+                                        {% if s.responded == "yes" %}
+                                            <div class="alert alert-danger fade show" role="alert" id="alert-{{s.script_id}}">
+                                                <value class="alert-text">The debug session has stopped. Total debug time : {{s.duration}} seconds</value>
+                                            </div>
+                                        {% elif s.responded == "progress" %}
+                                            <div class="alert alert-danger fade show" role="alert" id="alert-{{s.script_id}}">
+                                                <value class="alert-text">The debug session has started</value>
+                                            </div>
+                                        {% else %}
+                                            <div class="alert alert-danger fade" role="alert" id="alert-{{s.script_id}}">
+                                                <div class="spinner-border" role="status">
+                                                    <span class="sr-only">Loading...</span>
+                                                </div>
+                                                <value class="alert-text"></value>
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    {% if s.responded == "progress" %}
+                                        <div class="col-sm-12">
+                                            <textarea class="form-control script-box" id="script-box-{{s.script_id}}" disabled style="display:block">{{s.raw_url}}</textarea>
+                                        </div>
+                                    {% else %}
+                                        <div class="col-sm-12">
+                                            <textarea class="form-control script-box" id="script-box-{{s.script_id}}" disabled style="
+                                            display: none;">{{s.raw_url}}</textarea>
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                {% endfor %}
+                </div>
+                <div class="modal" tabindex="-1" role="dialog" id="done-modal">
+                    <div class="modal-dialog" role="document">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title">You are done.</h5>
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                        </div>
+                        <div class="modal-body">
+                          <p>Thank you for your time.</p>
+                        </div>
+                        <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="window.location.href = '/'">OK</button>
+                        </div>
+                      </div>
+                    </div>
+                </div>    
+            <div class="col-sm-2"></div>
+        </div>
+    </div>
+</body>

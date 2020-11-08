@@ -24,6 +24,6 @@ urlpatterns = [
     url('questionnaireapi/', include('frontend.urls'), name='frontend_questionnaire_api'),
     path('admin/', admin.site.urls),
     path('questionnaire/<str:token>', views.questionnaire),
-    path('code/<str:token>', views.code),
+    path('gits/<str:token>', views.gits),
     url('^$', views.index)
 ]

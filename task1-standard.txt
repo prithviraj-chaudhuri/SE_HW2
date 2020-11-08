@@ -1,0 +1,7 @@
+Do the following tasks
+
+1. Clone the repo
+
+2. Do something
+
+3. Do something else

@@ -86,6 +86,47 @@ def code(request, token):
     context = {"scripts":script_list, "script_id_list": ','.join(script_id_list), "in_progres":in_progress}
     return render(request, 'code.html', context)
 
+def gits(request, token):
+
+    if token_used(token) == False:
+        response = redirect('/')
+        return response
+
+    script_object = Scripts.objects
+    scripts = script_object.get_all_scripts()
+
+    record_object = Record.objects
+    records = record_object.get_records(token=token);
+
+    context = {}
+    script_list = []
+    script_id_list = []
+
+    in_progress = False
+
+    for s in scripts:
+        script = {}
+        script["script_id"] = s['script_id']
+        script["script_title"] = s['script_title']
+        script["download_link"] = s['download_link']
+        script["readme_link"] = s['readme_link']
+        r = requests.get(url = s['raw_url'], params = {})
+        script["raw_url"] = r.text
+        script_list.append(script)
+        script_id_list.append(str(s['script_id']))
+        script['responded'] = "no"
+        for r in records:
+            if r['fields']['language'] == script["script_id"]:
+                if len(r['fields']['duration']) > 0:
+                    script['responded'] = "yes"
+                    script['duration'] = r['fields']['duration']
+                else:
+                    script['responded'] = "progress"
+                    in_progress = True
+
+    context = {"scripts":script_list, "script_id_list": ','.join(script_id_list), "in_progres":in_progress}
+    return render(request, 'gits.html', context)
+
 def token_used(token):
     unused_tokens = Token.objects.get_unused_token()
     for ut in unused_tokens:
